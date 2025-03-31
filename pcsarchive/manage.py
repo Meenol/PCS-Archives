@@ -2,6 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from django.shortcuts import render
 
 
 def main():
@@ -16,6 +17,10 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
     execute_from_command_line(sys.argv)
+
+
+def login_page(request):
+        return render(request, 'login.html')
 
 
 if __name__ == '__main__':

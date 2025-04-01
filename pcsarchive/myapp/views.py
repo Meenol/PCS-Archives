@@ -7,3 +7,6 @@ def home_page(request):
 
 def login_page(request):
     return render(request, 'login.html')
+
+def signin_page(request):
+    return render(request, 'signin.html')

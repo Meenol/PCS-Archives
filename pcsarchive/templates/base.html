@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <title>My Project</title>
+
+        <style>
+
+            @font-face {
+                        font-family: 'Jeju';
+                        src: url("{% static 'fonts/JejuHallasan-Regular.ttf' %}") format('truetype');
+                        font-weight: normal;
+                        font-style: normal;
+                    }
+
+            #header {
+                background: #555F8F;
+                min-height: 150px;
+                max-height: 250px;
+                width: 100%;
+                display: flex;
+                justify-content: flex-start; /* Centers horizontally */
+                align-items: center;
+                flex-direction: row;
+                gap: 40px;
+            }
+
+            #symbol{
+                display: flex;
+                margin-left: 40px;
+            }
+
+            #logo {
+                width: 100%; /* Adjust the size of the image as needed */
+                height: auto; /* Keeps the image aspect ratio intact */
+            }
+
+            #temppfp {
+                width:10%;
+                height: 50%;
+                border: 2px solid;
+            }
+
+            #sidebar{
+                display: flex;
+                flex-direction: row;
+                margin: 40px;
+                justify-content: flex-start;
+                align-items: center;
+            }
+
+            #contents{
+                display: flex;
+                flex-direction: column;
+            }
+
+            .buttonlist{
+                display: flex;
+                flex-direction: column;
+                gap: 40px;
+                margin-bottom: 40px;
+            }
+
+            .sidebutton {
+                height: 30px;
+                width:  10%;
+                background-color: #9C9C9C;
+                border-radius: 20px;
+                box-shadow: 0px 5px #393939;
+            }
+
+            #vl {
+                border: 3px solid black;
+                height: 300px;
+            }
+
+            body {
+                background-color: #4E4E4E; /* Change this to any color you want */
+                margin: 0; /* Removes default margin */
+                height: 100vh; /* Ensures full page coverage */
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="header">
+            <div id="symbol">
+                <img src="{% static 'static_images/PCSSymbol.png' %}" id="logo">
+            </div>
+            <h1 style="font-family:'Jeju'; font-size: 60px;">PCS Archive</h1>
+        </div>
+
+        <div id="sidebar">
+            
+            <div id="contents">
+                <div class="buttonlist">
+                    <button class="sidebutton">Minigames</button>
+                    <button class="sidebutton">About Page</button>
+                    <button class="sidebutton">Profile Page</button>
+                </div>
+                <img src="{% static 'static_images/ghosthrob.jpg' %}" id="temppfp">
+            </div>
+
+            <div id="vl"></div>
+        </div>
+
+
+        {% block content %}
+        <!-- Insert stuff here -->
+        {% endblock %}
+
+    </body>
+</html>

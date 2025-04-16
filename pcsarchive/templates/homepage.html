@@ -1,18 +1,25 @@
 {% extends 'base.html' %}
+{% block content %}
+
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Hola</title>
+    <style>
+        body {
+            background-color: #4E4E4E; /* Change this to any color you want */
+            margin: 0; /* Removes default margin */
+            height: 100vh; /* Ensures full page coverage */
+        }
+        </style>
+
 </head>
 <body>
 
-    <header>
-        <h1>Welcome to... PCS?</h1>
-    </header>
-
     <main>
-        
+        <p> Welcome to... PCS? </p>
     </main>
 
     <footer>
@@ -20,3 +27,4 @@
 
 </body>
 </html>
+{% endblock %}

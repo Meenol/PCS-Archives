@@ -13,13 +13,47 @@
             margin: 0; /* Removes default margin */
             height: 100vh; /* Ensures full page coverage */
         }
+
+        #entity-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .titlecard {
+            display: flex;
+            flex-direction: column;
+            background-color: #9C9C9C;
+            padding: 15px;
+            border-radius: 8px;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .entity-image{
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+            object-fit: cover;
+        }
         </style>
 
 </head>
 <body>
 
     <main>
-        <p> Welcome to... PCS? </p>
+        <div id="entity-list">
+            {% for entity in entity %}
+            <div class="titlecard">
+                <img src="{{ entity.image.url }}" alt="{{ entity.name }}" class="entity-image">
+                <hr style="border: 2px solid black; margin: 10px 0; width: 100%";>
+                <h1>{{entity.name}}</h1>
+            </div>
+          {% endfor %}
+
+        </div>
     </main>
 
     <footer>

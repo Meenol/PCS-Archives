@@ -9,14 +9,25 @@ class Class(models.Model):
     def __str__(self):
         return self.class_name
     
-class Entity(models.Model):
-    eid = models.AutoField(primary_key=True)
+class Site(models.Model):
+    siteid = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    location = models.CharField(max_length=100)
-    class_ref = models.ForeignKey(Class, on_delete=models.CASCADE)
+    address = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
+    
+class Entity(models.Model):
+    eid = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    location = models.ForeignKey(Site, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='entitypfp/', default='entitypfp/default_image.png')  # Changed to ImageField
+    class_ref = models.ForeignKey(Class, on_delete=models.CASCADE)
+    description = models.TextField(default="No description provided.")
+
+    def __str__(self):
+        return self.name
+    
 
 
 class SecurityClearance(models.Model):
@@ -30,7 +41,7 @@ class SecurityClearance(models.Model):
 class Personnel(models.Model):
     pid = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    location = models.CharField(max_length=100)
+    location = models.ForeignKey(Site, on_delete=models.SET_NULL, null=True)
     clearance = models.ForeignKey(SecurityClearance, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
@@ -42,6 +53,9 @@ class User(models.Model):
     password = models.CharField(max_length=128)
     email = models.EmailField(unique=True)
     clearance = models.ForeignKey(SecurityClearance, on_delete=models.SET_NULL, null=True)
+    quote = models.CharField(max_length=100, default="Silenced.")
+    image = models.ImageField(upload_to='userpfp/', default='userpfp/default_image.png')
+    #in signin code have it so that clearance is instantly assigned to 1
 
     def __str__(self):
         return self.username

@@ -2,13 +2,17 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.db import IntegrityError
 from django.contrib.auth.hashers import make_password, check_password
-from .models import User
+from .models import User, Class, Site, Entity, Personnel, SecurityClearance
 
 
 
 # Create your views here.
 def home_page(request):
-    return render(request, 'homepage.html')
+    entity = Entity.objects.all()
+    return render(request, 'homepage.html', {'entity' : entity})
+
+def base(request):
+    user = User.objects.all()
 
 def login_page(request):
     """

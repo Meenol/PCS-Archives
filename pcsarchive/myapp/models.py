@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.core.validators import MaxValueValidator
 
 # Create your models here.
 
@@ -72,6 +73,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     clearance = models.ForeignKey('SecurityClearance', on_delete=models.SET_NULL, null=True)
     quote = models.CharField(max_length=100, default="Silenced.")
     image = models.ImageField(upload_to='userpfp/', default='userpfp/default_image.png')
+    exp = models.IntegerField(validators=[MaxValueValidator(100)],default=0)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

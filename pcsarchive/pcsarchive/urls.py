@@ -37,7 +37,6 @@ urlpatterns = [
     path('Escape/', escape, name='escape')
     
 
-
 ]
 
 if settings.DEBUG:

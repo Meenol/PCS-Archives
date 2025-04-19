@@ -4,12 +4,61 @@
 <head>
     <meta charset="UTF-8">
     <title>Hola</title>
+<<<<<<< Updated upstream
 </head>
 <body>
 
     <header>
         <h1>Welcome to... PCS?</h1>
     </header>
+=======
+    <style>
+        body {
+            background-color: #4E4E4E; /* Change this to any color you want */
+            margin: 0; /* Removes default margin */
+            height: 100vh; /* Ensures full page coverage */
+        }
+
+        #entity-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .titlecard {
+            display: flex;
+            flex-direction: column;
+            background-color: #9C9C9C;
+            padding: 15px;
+            border-radius: 12px;
+            justify-content: center;
+            align-items: center;
+            height: 300px; /* Fixed height */
+
+        }
+
+        .entity-image{
+            width: 100%;
+            max-width: 200px;
+            height: 200px; /* Fixed height */
+            object-fit: cover;
+        }
+        </style>
+
+</head>
+<body>
+
+    <main>
+        <div id="entity-list">
+            {% for entity in entity %}
+            <div class="titlecard">
+                <img src="{{ entity.image.url }}" alt="{{ entity.name }}" class="entity-image">
+                <hr style="border: 2px solid black; margin: 10px 0; width: 110%";>
+                <h1 style="font-family:'Jeju'";>{{entity.name}}</h1>
+            </div>
+          {% endfor %}
+>>>>>>> Stashed changes
 
     <main>
         

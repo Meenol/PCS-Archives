@@ -23,4 +23,8 @@ urlpatterns = [
     path('', home_page, name='home'),
     path('login/', login_page, name='login'),
     path('signin/', signin_page, name='signin'),
+<<<<<<< Updated upstream
+=======
+    path('base/', base, name='base')
+>>>>>>> Stashed changes
 ]

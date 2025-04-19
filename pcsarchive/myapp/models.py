@@ -22,9 +22,9 @@ class Entity(models.Model):
     eid = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     location = models.ForeignKey(Site, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='entitypfp/', default='entitypfp/default_image.png')  # Changed to ImageField
+    image = models.ImageField(upload_to='entitypfp/', default='entitypfp/default_image.png', blank=True)  # Changed to ImageField
     class_ref = models.ForeignKey(Class, on_delete=models.CASCADE)
-    description = models.TextField(default="No description provided.")
+    description = models.TextField(default="No description provided.", blank=True)
 
     def __str__(self):
         return self.name

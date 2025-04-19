@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hola</title>
+    <style>
+        body {
+            background-color: #4E4E4E; /* Change this to any color you want */
+            margin: 0; /* Removes default margin */
+            height: 100vh; /* Ensures full page coverage */
+        }
+
+        #upload-entity{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+        }
+        #formbox {
+                height:20px;
+                width:100px;
+                background-color: white;
+                border:2px solid;
+            }
+
+        .checkboxform{
+            display:flex;
+            flex-direction: column;
+            background-color: #555F8F;
+            border-radius: 8px;
+            height: 100%;
+        }
+
+        .actual-checkboxes{
+            display:flex;
+            flex-direction: row;
+            /*height: 40px;*/
+        }
+
+        .submission {
+            width: 100%;
+            height: 50px;
+            font-size: 1.1rem;
+            background-color: #9C9C9C;
+            border-radius: 20px;
+            box-shadow: 0px 5px #393939;
+        }
+
+        label {
+            font-family: 'Jeju';
+            color: black;
+        }
+
+        h1 {
+            font-family: 'Jeju';
+            color: black;
+        }
+
+        
+        </style>
+
+</head>
+<body>
+
+    <main>
+        <div id="upload-entity">
+
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div id="image-upload">
+                    <label for="image">Select image:</label>
+                    <input type="file" id="image" name="image">
+                </div>
+
+                <div id="name-upload">
+                    <label for="name">Name:</label>
+                    <div id="formbox">
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                </div>
+
+                <div id="class-upload">
+                    <h1> Choose Entity's Class:</h1>
+
+                    <div class="checkboxform">
+                        {% for c in classes %}
+                        <div class="actual-checkboxes">
+                            <input type="radio" id="class-{{ c.class_id }}" name="eclass" value="{{ c.class_id }}" required>
+                            <label for="class-{{ c.class_id }}">{{ c.class_name }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div id="site-upload">
+                    <h1>Choose Entity's Containment site:</h1>
+                    <div class="checkboxform">
+                        {% for site in sites %}
+                        <div class="actual-checkboxes">
+                            <input type="radio" id="site-{{ site.siteid }}" name="esite" value="{{ site.siteid }}" required>
+                            <label for="site-{{ site.id }}">{{ site.name }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div id="desc-upload">
+                    <h1>Write Entity Report:</h1>
+                    <textarea id="desc" name="desc" rows="5" cols="50"></textarea>
+                </div>
+
+                <button class="submission" type="submit" style="margin-top:20px;">Submit</button>
+
+                
+
+
+
+                  </form>
+
+                  {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </main>
+
+    <footer>
+    </footer>
+
+</body>
+</html>
+{% endblock %}

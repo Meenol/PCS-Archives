@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from myapp.views import home_page, login_page, signin_page, base, entity_detail, profile_page, user_profile
+from myapp.views import home_page, login_page, signin_page, base, entity_detail, profile_page, user_profile, upload_entity, minigames, escape, about_page
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
@@ -24,6 +24,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_page, name='home'),
+    path('about/', about_page, name='about'),
     path('login/', login_page, name='login'),
     path('signin/', signin_page, name='signin'),
     path('admin/', admin.site.urls),
@@ -31,6 +32,10 @@ urlpatterns = [
     path('entity/<int:eid>/', entity_detail, name='entity_detail'),
     path('profile/', profile_page, name='profile'),
     path('user/<int:uid>/', user_profile, name='user_profile'),
+    path('upload/', upload_entity, name='upload'),
+    path('Minigames/', minigames, name='minigames'),
+    path('Escape/', escape, name='escape')
+    
 
 
 ]

@@ -93,17 +93,29 @@
         <div id="symbol">
             <img src="{% static 'static_images/PCSSymbol.png' %}" id="logo">
         </div>
-        <h1 style="font-family:'Jeju'; font-size:60px;">PCS Archive</h1>
+        <a href="{% url 'home' %}" style="text-decoration: none; color: inherit;">
+            <h1 style="font-family:'Jeju'; font-size:60px;">PCS Archive</h1>
+        </a>
     </div>
 
     <div id="layout">
         <div id="sidebar">
             <div id="contents">
                 <div class="buttonlist">
-                    <button class="sidebutton">Minigames</button>
-                    <button class="sidebutton">About Page</button>
+                    <a href="{% url 'minigames' %}" >
+                        <button class="sidebutton">Minigames</button>
+                    </a>
+
+                    <a href="{% url 'about' %}" >
+                        <button class="sidebutton">About Page</button>
+                    </a>
+
                     <a href="{% url 'profile' %}">
                         <button class="sidebutton">Profile Page</button>
+                    </a>
+                    
+                    <a href="{% url 'upload' %}">
+                        <button class="sidebutton">Upload</button>
                     </a>
                 </div>
                 <img src="{{user.image.url}}" id="userpfp">

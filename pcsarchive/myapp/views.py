@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Entity
+from .models import Entity, User
 
 
 # Create your views here.

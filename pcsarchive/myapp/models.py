@@ -2,8 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 # Create your models here.
-<<<<<<< Updated upstream
-=======
 
 class Class(models.Model):
     class_id = models.AutoField(primary_key=True)
@@ -89,4 +87,3 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.username
 
->>>>>>> Stashed changes

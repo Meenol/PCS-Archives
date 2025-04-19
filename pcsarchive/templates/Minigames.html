@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
 
 <!DOCTYPE html>
 
@@ -26,12 +27,10 @@
             flex-direction: column;
             background-color: #9C9C9C;
             padding: 15px;
-
-            border-radius: 12px;
+            border-radius: 8px;
             justify-content: center;
             align-items: center;
-            height: 300px; /* Fixed height */
-
+            
 
         }
 
@@ -42,26 +41,21 @@
             max-height: 200px;
             object-fit: cover;
         }
-
-        h1 {
-            font-family: 'Jeju';
-            color: white;
-        }
         </style>
 
 </head>
 <body>
+
     <main>
-        <div id="entity-list">
-            {% for entity in entity %}
+        <div id="game-list">
+
             <div class="titlecard">
-                <img src="{{ entity.image.url }}" alt="{{ entity.name }}" class="entity-image">
+                <img src="{% static 'static_images/PCSSymbol.png' %}" alt="EscapeImg" class="entity-image">
                 <hr style="border: 2px solid black; margin: 10px 0; width: 100%;">
-                <a href="{% url 'entity_detail' entity.eid %}" style="text-decoration: none; color: inherit;">
-                    <h1>{{ entity.name }}</h1>
+                <a href="{% url 'escape' %}" style="text-decoration: none; color: inherit;">
+                    <h1>Escape!</h1>
                 </a>
             </div>
-          {% endfor %}
 
         </div>
     </main>

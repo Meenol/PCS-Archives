@@ -1,4 +1,3 @@
-
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
 from django.db import IntegrityError
@@ -11,19 +10,59 @@ from django.contrib.auth import get_user_model, authenticate, login
 # Create your views here.
 def home_page(request):
     entity = Entity.objects.all()
+    return render(request, 'homepage.html', {'entity' : entity})
 
-    user_id = request.session.get('user_id')
+def about_page(request):
+    return render(request, 'about.html')
+
+def upload_entity(request):
+    uid = request.session.get('user_id')
+    #user = User.objects.get(uid=uid)
+    classes = Class.objects.all()
+    sites = Site.objects.all()
 
     context = {
-        'entity': entity,
-        'user_id': user_id
+
+        'classes': classes,
+        'sites': sites
+
     }
-    return render(request, 'homepage.html', context)
 
-def base(request):
-    user = User.objects.all()
-    user_id = request.session.get('user_id')
+    if request.method == 'POST':
 
+        eImage = request.FILES.get('image')
+        if not eImage:
+            eImage = 'entitypfp/default_image.png'  # Path to your default image
+            
+        eName = request.POST['name']
+
+        eClass = request.POST['eclass']
+        selected_class = Class.objects.get(class_id=eClass)
+
+        eSite = request.POST['esite']
+        selected_site = Site.objects.get(siteid=eSite)
+
+        eDesc = request.POST['desc']
+        if not eDesc:
+            eDesc = "No description provided."
+        try: 
+            insert = Entity.objects.create(
+                name=eName,
+                location=selected_site, 
+                image=eImage, 
+                class_ref=selected_class, 
+                description=eDesc)
+            messages.success(request, "Entity successfully uploaded.")
+        except:
+            messages.error(request, "Error. Unable to upload Entity.")
+
+    return render(request, 'upload.html', context)
+
+def minigames(request):
+    return render(request, 'Minigames.html')
+
+def escape(request):
+    return render(request, 'Escape.html')
 
 def login_page(request):
     if request.method == 'POST':

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.core.validators import MaxValueValidator
 
 # Create your models here.
 
@@ -22,9 +23,9 @@ class Entity(models.Model):
     eid = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     location = models.ForeignKey(Site, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='entitypfp/', default='entitypfp/default_image.png')  # Changed to ImageField
+    image = models.ImageField(upload_to='entitypfp/', default='entitypfp/default_image.png', blank=True)  # Changed to ImageField
     class_ref = models.ForeignKey(Class, on_delete=models.CASCADE)
-    description = models.TextField(default="No description provided.")
+    description = models.TextField(default="No description provided.", blank=True)
 
     def __str__(self):
         return self.name
@@ -72,6 +73,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     clearance = models.ForeignKey('SecurityClearance', on_delete=models.SET_NULL, null=True)
     quote = models.CharField(max_length=100, default="Silenced.")
     image = models.ImageField(upload_to='userpfp/', default='userpfp/default_image.png')
+    exp = models.IntegerField(validators=[MaxValueValidator(100)],default=0)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -83,4 +85,3 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
-

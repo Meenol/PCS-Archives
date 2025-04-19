@@ -1,3 +1,4 @@
+
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
 from django.db import IntegrityError
@@ -10,10 +11,19 @@ from django.contrib.auth import get_user_model, authenticate, login
 # Create your views here.
 def home_page(request):
     entity = Entity.objects.all()
-    return render(request, 'homepage.html', {'entity' : entity})
+
+    user_id = request.session.get('user_id')
+
+    context = {
+        'entity': entity,
+        'user_id': user_id
+    }
+    return render(request, 'homepage.html', context)
 
 def base(request):
     user = User.objects.all()
+    user_id = request.session.get('user_id')
+
 
 def login_page(request):
     if request.method == 'POST':

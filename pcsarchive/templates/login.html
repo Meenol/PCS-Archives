@@ -5,13 +5,12 @@
         <title>My Project</title>
 
         <style>
-
             @font-face {
-                        font-family: 'Jeju';
-                        src: url("{% static 'fonts/JejuHallasan-Regular.ttf' %}") format('truetype');
-                        font-weight: normal;
-                        font-style: normal;
-                    }
+                font-family: 'Jeju';
+                src: url("{% static 'fonts/JejuHallasan-Regular.ttf' %}") format('truetype');
+                font-weight: normal;
+                font-style: normal;
+            }
 
             #header {
                 background: #555F8F;
@@ -46,7 +45,6 @@
                 justify-content: center;
                 align-items: center;
                 height: 100vh;
-
             }
 
             .backdrop {
@@ -78,7 +76,6 @@
                 background-color: white;
                 border:2px solid;
             }
-
         </style>
     </head>
 
@@ -93,12 +90,27 @@
         <div id="loginarea">
             <div class="backdrop">
                 <h1 style="font-family:'Jeju'; font-size: 60px;">Login</h1>
-                <div class="form_area">
-                    <h2 style="font-family:'Jeju';">Username</h2>
-                    <div class="forms"></div>
-                    <h2 style="font-family:'Jeju';">Password</h2>
-                    <div class="forms"></div>
-                </div>
+
+                <!-- Form starts here -->
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <div class="form_area">
+                        <h2 style="font-family:'Jeju';">Username</h2>
+                        <div class="forms">
+                            <input type="text" name="username" style="width:100%; height:100%; border:none; padding-left:10px;" required>
+                        </div>
+
+                        <h2 style="font-family:'Jeju';">Password</h2>
+                        <div class="forms">
+                            <input type="password" name="password" style="width:100%; height:100%; border:none; padding-left:10px;" required>
+                        </div>
+                    </div>
+
+                    <!-- Submit button -->
+                    <button type="submit" style="margin-top:20px;">Login</button>
+                </form>
+                <!-- Form ends here -->
+
             </div>
         </div>
     </body>

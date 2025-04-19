@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 {% load static %}
 <html>
@@ -5,13 +7,12 @@
         <title>My Project</title>
 
         <style>
-
             @font-face {
-                        font-family: 'Jeju';
-                        src: url("{% static 'fonts/JejuHallasan-Regular.ttf' %}") format('truetype');
-                        font-weight: normal;
-                        font-style: normal;
-                    }
+                font-family: 'Jeju';
+                src: url("{% static 'fonts/JejuHallasan-Regular.ttf' %}") format('truetype');
+                font-weight: normal;
+                font-style: normal;
+            }
 
             #header {
                 background: #555F8F;
@@ -46,7 +47,6 @@
                 justify-content: center;
                 align-items: center;
                 height: 100vh;
-
             }
 
             .backdrop {
@@ -73,12 +73,19 @@
             }
 
             .forms {
-                height:50px;
-                width:550px;
+                height: 50px;
+                width: 550px;
                 background-color: white;
-                border:2px solid;
+                border: 2px solid;
             }
 
+            /* Optional button styling (remove if you prefer) */
+            button {
+                margin-top: 20px;
+                padding: 10px 20px;
+                border: none;
+                cursor: pointer;
+            }
         </style>
     </head>
 
@@ -93,14 +100,34 @@
         <div id="loginarea">
             <div class="backdrop">
                 <h1 style="font-family:'Jeju'; font-size: 60px;">Sign in</h1>
-                <div class="form_area">
-                    <h2 style="font-family:'Jeju';">Username</h2>
-                    <div class="forms"></div>
-                    <h2 style="font-family:'Jeju';">Email</h2>
-                    <div class="forms"></div>
-                    <h2 style="font-family:'Jeju';">Password</h2>
-                    <div class="forms"></div>
-                </div>
+
+                <!-- Form begins -->
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <div class="form_area">
+                        <h2 style="font-family:'Jeju';">Username</h2>
+                        <div class="forms">
+                            <input type="text" name="username" placeholder="Enter Username"
+                                   style="width:100%; height:100%; border:none; padding-left:10px;" required />
+                        </div>
+
+                        <h2 style="font-family:'Jeju';">Email</h2>
+                        <div class="forms">
+                            <input type="email" name="email" placeholder="Enter Email"
+                                   style="width:100%; height:100%; border:none; padding-left:10px;" required />
+                        </div>
+
+                        <h2 style="font-family:'Jeju';">Password</h2>
+                        <div class="forms">
+                            <input type="password" name="password" placeholder="Enter Password"
+                                   style="width:100%; height:100%; border:none; padding-left:10px;" required />
+                        </div>
+                    </div>
+
+                    <button type="submit">Sign In</button>
+                </form>
+                <!-- Form ends -->
+
             </div>
         </div>
     </body>

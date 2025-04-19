@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ user.username }}'s Profile</title>
+    <style>
+        body {
+            background-color: #4E4E4E;
+            margin: 0;
+            padding: 40px;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        .profile-container {
+            background-color: #9C9C9C;
+            padding: 40px;
+            max-width: 600px;
+            margin: auto;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .profile-container img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 100px;
+            border: 3px solid white;
+            margin-bottom: 20px;
+        }
+
+        .profile-container h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .profile-container p {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .quote-edit-btn,
+        .pic-edit-btn {
+            background-color: #555F8F;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .quote-edit-btn:hover,
+        .pic-edit-btn:hover {
+            background-color: #444A6F;
+        }
+
+        .quote-form,
+        .pic-form {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .quote-form input,
+        .pic-form input {
+            width: 80%;
+            padding: 8px;
+        }
+
+        .quote-form button,
+        .pic-form button {
+            margin-top: 10px;
+            padding: 6px 16px;
+            background-color: #555F8F;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .quote-form button:hover,
+        .pic-form button:hover {
+            background-color: #444A6F;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <img src="{{ user.image.url }}" alt="Profile Picture" id="profile-pic">
+        <h1>{{ user.username }}</h1>
+
+        {% if request.user == user %}
+            <!-- Profile Picture Edit Button -->
+            <button class="pic-edit-btn" onclick="togglePicEdit()">🖼️ Change Picture</button>
+
+            <!-- Hidden Image Upload Form -->
+            <form method="POST" enctype="multipart/form-data" class="pic-form" id="pic-form">
+                {% csrf_token %}
+                <input type="file" name="image" accept="image/*">
+                <br>
+                <button type="submit">Upload</button>
+            </form>
+
+            <!-- Quote Edit Section -->
+            <p>
+                <strong>Quote:</strong> 
+                <span id="quote-display">{{ user.quote }}</span>
+                <button class="quote-edit-btn" onclick="toggleQuoteEdit()">✏️ Edit</button>
+            </p>
+
+            <form method="POST" class="quote-form" id="quote-form">
+                {% csrf_token %}
+                <input type="text" name="quote" value="{{ user.quote }}" maxlength="100">
+                <br>
+                <button type="submit">Save</button>
+            </form>
+        {% else %}
+            <p><strong>Quote:</strong> "{{ user.quote }}"</p>
+        {% endif %}
+
+        <p><strong>Clearance:</strong> {{ user.clearance.level }}</p>
+    </div>
+
+    <script>
+        function toggleQuoteEdit() {
+            const form = document.getElementById('quote-form');
+            const quoteDisplay = document.getElementById('quote-display');
+
+            if (form.style.display === 'none' || form.style.display === '') {
+                form.style.display = 'block';
+                quoteDisplay.style.display = 'none';
+            } else {
+                form.style.display = 'none';
+                quoteDisplay.style.display = 'inline';
+            }
+        }
+
+        function togglePicEdit() {
+            const form = document.getElementById('pic-form');
+            form.style.display = (form.style.display === 'block') ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>
+
+{% endblock %}

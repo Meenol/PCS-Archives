@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ entity.name }}</title>
+    <style>
+        body {
+            background-color: #4E4E4E;
+            margin: 0;
+            padding: 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .entity-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #9C9C9C;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 700px;
+            margin: 40px auto;
+        }
+
+        .entity-container img {
+            width: 300px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .entity-container h1, .entity-container h3, .entity-container p {
+            margin-bottom: 10px;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #555F8F;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background-color: #444A6F;
+        }
+    </style>
+</head>
+<body>
+    <div class="entity-container">
+        <h1>{{ entity.name }}</h1>
+        <img src="{{ entity.image.url }}" alt="{{ entity.name }}">
+        <h3>Location: {{ entity.location.name }}</h3>
+        <h3>Class: {{ entity.class_ref.class_name }}</h3>
+        <p>{{ entity.description }}</p>
+
+        <a href="{% url 'home' %}">
+            <button class="back-button">Back to Homepage</button>
+        </a>
+    </div>
+</body>
+</html>
+
+{% endblock %}
+

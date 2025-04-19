@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 {% load static %}
 <html>
@@ -92,22 +93,24 @@
 
         <div id="sidebar">
             
+
             <div id="contents">
                 <div class="buttonlist">
                     <button class="sidebutton">Minigames</button>
                     <button class="sidebutton">About Page</button>
-                    <button class="sidebutton">Profile Page</button>
-                </div>
-                <img src="{% static 'static_images/ghosthrob.jpg' %}" id="temppfp">
-            </div>
 
-            <div id="vl"></div>
+                    <a href="{% url 'profile' %}">
+                        <button class="sidebutton">Profile Page</button>
+                    </a>
+                </div>
+                <img src="{{user.image.url}}" id="userpfp">
+            </div>
         </div>
 
-
-        {% block content %}
-        <!-- Insert stuff here -->
-        {% endblock %}
-
-    </body>
+        <div id="main">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
 </html>
+

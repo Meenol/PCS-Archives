@@ -16,12 +16,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from myapp.views import home_page, login_page, signin_page, base
+
+from myapp.views import home_page, login_page, signin_page, base, entity_detail, profile_page, user_profile
+from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_page, name='home'),
     path('login/', login_page, name='login'),
     path('signin/', signin_page, name='signin'),
-    path('base/', base, name='base')
+    path('admin/', admin.site.urls),
+    path('base/', base, name='base'),
+    path('entity/<int:eid>/', entity_detail, name='entity_detail'),
+    path('profile/', profile_page, name='profile'),
+    path('user/<int:uid>/', user_profile, name='user_profile'),
+
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    

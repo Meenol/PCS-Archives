@@ -14,31 +14,15 @@
             height: 100vh; /* Ensures full page coverage */
         }
 
-        #entity-list {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            padding: 20px;
-        }
-
-        .titlecard {
-            display: flex;
-            flex-direction: column;
-            background-color: #9C9C9C;
-            padding: 15px;
-            border-radius: 8px;
+        #game {
             justify-content: center;
             align-items: center;
-            
-
+            text-align: center;
         }
 
-        .entity-image{
-            width: 100%;
-            max-width: 200px;
-            height: 200px;
-            max-height: 200px;
-            object-fit: cover;
+        h1 {
+            font-family: 'Jeju';
+            color: white;
         }
         </style>
 
@@ -46,7 +30,9 @@
 <body>
 
     <main>
-        <h1>Uhh....Hi? No Escape. Sowwy.</h1>
+        <div id="game">
+            <h1 style="color:white;">Uhh....Hi? No Escape. Sowwy.</h1>
+        </div>
     </main>
 
     <footer>

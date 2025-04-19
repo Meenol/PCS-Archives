@@ -17,9 +17,14 @@
         #upload-entity{
             display: flex;
             flex-direction: column;
-            gap: 10px;
             justify-content: center;
             align-items: center;
+        }
+
+        #upload-entity form{
+            display: flex;
+            flex-direction: column; 
+            gap: 30px;
         }
         #formbox {
                 height:20px;
@@ -31,7 +36,7 @@
         .checkboxform{
             display:flex;
             flex-direction: column;
-            background-color: #555F8F;
+            border: solid white 2px;
             border-radius: 8px;
             height: 100%;
         }
@@ -39,7 +44,7 @@
         .actual-checkboxes{
             display:flex;
             flex-direction: row;
-            /*height: 40px;*/
+            margin: 5px;
         }
 
         .submission {
@@ -53,12 +58,20 @@
 
         label {
             font-family: 'Jeju';
-            color: black;
+            color: white;
         }
 
         h1 {
             font-family: 'Jeju';
-            color: black;
+            color: white;
+        }
+
+        #image-preview{
+            display: none; 
+            max-width: 300px; 
+            max-height: 300px; 
+            border: 2px solid white; 
+            margin-top: 10px;
         }
 
         
@@ -73,6 +86,7 @@
             <form action="" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div id="image-upload">
+                    <img id="image-preview" src="#" alt="Image Preview">
                     <label for="image">Select image:</label>
                     <input type="file" id="image" name="image">
                 </div>
@@ -111,7 +125,7 @@
 
                 <div id="desc-upload">
                     <h1>Write Entity Report:</h1>
-                    <textarea id="desc" name="desc" rows="5" cols="50"></textarea>
+                    <textarea id="desc" name="desc" rows="10" cols="62" style="border: solid black 2px;"></textarea>
                 </div>
 
                 <button class="submission" type="submit" style="margin-top:20px;">Submit</button>
@@ -130,6 +144,18 @@
             </ul>
             {% endif %}
         </div>
+
+        <script>
+            document.getElementById('image').addEventListener('change', function(event) {
+                const [file] = this.files;
+                if (file) {
+                    const preview = document.getElementById('image-preview');
+                    preview.src = URL.createObjectURL(file);
+                    preview.style.display = 'block';
+                }
+            });
+        </script>
+
     </main>
 
     <footer>

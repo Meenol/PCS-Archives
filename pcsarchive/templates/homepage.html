@@ -42,6 +42,11 @@
             max-height: 200px;
             object-fit: cover;
         }
+
+        h1 {
+            font-family: 'Jeju';
+            color: white;
+        }
         </style>
 
 </head>
@@ -50,9 +55,9 @@
         <div id="entity-list">
             {% for entity in entity %}
             <div class="titlecard">
+                <img src="{{ entity.image.url }}" alt="{{ entity.name }}" class="entity-image">
+                <hr style="border: 2px solid black; margin: 10px 0; width: 100%;">
                 <a href="{% url 'entity_detail' entity.eid %}" style="text-decoration: none; color: inherit;">
-                    <img src="{{ entity.image.url }}" alt="{{ entity.name }}" class="entity-image">
-                    <hr style="border: 2px solid black; margin: 10px 0; width: 100%;">
                     <h1>{{ entity.name }}</h1>
                 </a>
             </div>

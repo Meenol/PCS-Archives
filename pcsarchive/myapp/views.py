@@ -64,9 +64,6 @@ def minigames(request):
 def escape(request):
     return render(request, 'Escape.html')
 
-def base(request):
-    user = User.objects.all()
-
 def login_page(request):
     if request.method == 'POST':
         username = request.POST.get('username')

@@ -102,7 +102,9 @@
                 <div class="buttonlist">
                     <button class="sidebutton">Minigames</button>
                     <button class="sidebutton">About Page</button>
-                    <button class="sidebutton">Profile Page</button>
+                    <a href="{% url 'profile' %}">
+                        <button class="sidebutton">Profile Page</button>
+                    </a>
                 </div>
                 <img src="{{user.image.url}}" id="userpfp">
             </div>

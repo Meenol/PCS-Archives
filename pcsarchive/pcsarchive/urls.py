@@ -16,10 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from myapp.views import home_page, login_page, signin_page, entity_detail, profile_page, user_profile, upload_entity, minigames, escape, about_page, user_library, delete_entity, delete_account
+from myapp.views import home_page, login_page, signin_page, entity_detail, profile_page, user_profile, upload_entity, minigames, escape, about_page, user_library, delete_entity, delete_account, logout
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,6 +38,7 @@ urlpatterns = [
     path('user/<int:uid>/library/', user_library, name='user_library'),
     path('entity/delete/<int:eid>/', delete_entity, name='delete_entity'),
     path('delete-account/', delete_account, name='delete_account'),
+    path('logout/', logout, name='logout'),
 
     
 

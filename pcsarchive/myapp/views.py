@@ -94,6 +94,11 @@ def escape(request):
                 user.clearance = levelup
                 user.exp -=100
                 user.save()
+        else:
+            levelup = SecurityClearance.objects.get(scid=1)
+            user.clearance = levelup
+            user.exp -=100
+            user.save()
        
     return render(request, 'Escape.html')
 
@@ -131,6 +136,7 @@ def signin_page(request):
                 username=username,
                 email=email,
                 password=make_password(password)
+
             )
 
             # Authenticate and log them in immediately
@@ -237,3 +243,12 @@ def delete_account(request):
         messages.success(request, "Your account has been deleted.")
         return redirect('home')
     return redirect('profile')
+
+@login_required
+def logout(request):
+    user = request.user
+    if request.method == 'POST':
+        request.session.clear()
+        messages.success(request, "Logged out.")
+        return redirect('login')
+    return redirect('home')

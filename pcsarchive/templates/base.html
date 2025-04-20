@@ -109,6 +109,18 @@
         <a href="{% url 'home' %}" style="text-decoration: none; color: inherit;">
             <h1 style="font-family: 'Jeju'; font-size:60px; color:white;">PCS Archive</h1>
         </a>
+
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button class="sidebutton" type="submit">Logout</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">
+                <button class="sidebutton">Logout</button>
+            </a>
+        {% endif %}
+
     </div>
 
     <div id="layout">
@@ -155,5 +167,7 @@
             {% block content %}{% endblock %}
         </div>
     </div>
+
+
 </body>
 </html>

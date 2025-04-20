@@ -20,6 +20,84 @@
             text-align: center;
         }
 
+        #window {
+            display: flex;
+            flex-direction: row;
+            /*border: solid black 5px;*/
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        #bg {
+            background-image: url("/media/entitypfp/Unicorn.jpg");
+            background-size: cover;
+            background-position: center;  
+            background-repeat: no-repeat;  
+            height: 600px;
+            /*width: 100%;*/
+            width: 850px;
+        }
+
+        .Iblock {
+            background-color: rgb(41, 240, 41);
+            height: 50px;
+            width: 50px;
+            border: solid black 1px;
+        }
+
+        .NIblock {
+            background-color: rgb(240, 41, 41);
+            height: 50px;
+            width: 50px;
+            border: solid black 1px;
+        }
+
+        .Bearblock {
+            background-color: rgb(77, 44, 7);
+            height: 50px;
+            width: 50px;
+            border: solid black 1px;
+        }
+
+        .numpad {
+            background-color: rgb(109, 109, 109);
+            height: 300px;
+            width: 200px;
+            border: solid black 1px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #pad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+        .numpad-screen {
+            background-color: rgb(96, 113, 82);
+            height: 100px;
+            width: 150px;
+            border: solid black 1px;
+            border-style: inset;
+        }
+
+        .numpad-btn {
+            background-color: rgb(61, 61, 61);
+            height: 40px;
+            width: 50px;
+            border: solid black 1px;
+            border-style: outset;
+        }
+
+        #clear {
+            background-color: rgb(61, 61, 61);
+            height: 20px;
+            width: 150px;
+            border: solid black 1px;
+            border-style: outset;
+        }
+
         h1 {
             font-family: 'Jeju';
             color: white;
@@ -32,7 +110,163 @@
     <main>
         <div id="game">
             <h1 style="color:white;">Uhh....Hi? No Escape. Sowwy.</h1>
+
+
+        <div id="window">
+
+            <div id="bg">
+
+                <div class = "Iblock" onclick="escapehere(this)"><p>Door</p></div>
+                <div class = "NIblock"></div>
+                <div class = "Iblock" onclick="collectedScissors(this)"><p>JAr</p></div>
+                <div class = "Iblock" onclick="collectedPaper(this)"><p>Chest</p></div>
+                <div class = "NIblock"></div>
+                <div class = "Bearblock" onclick="bearly_qualified(this)"><p>Bear</p></div>
+                <div class = "NIblock"></div>
+                <div class = "Iblock" onclick="collectedSafe(this)"><p>Safe</p></div>
+                <div class = "NIblock"></div>
+                <div class = "Iblock" onclick="collectedComputer(this)"><p>Comp</p></div>
+                
+
+            </div>
+
+            <div class="numpad">
+                <div id = "screen">
+                    <div class="numpad-screen">
+                        <p id="CodeInput" style="color: white;">Code: </p>
+                    </div>
+                </div>
+                <div id="pad">
+                    <div class="numpad-btn" onclick="insert(1)">1</div>
+                    <div class="numpad-btn" onclick="insert(2)">2</div>
+                    <div class="numpad-btn" onclick="insert(3)">3</div>
+                    <div class="numpad-btn" onclick="insert(4)">4</div>
+                    <div class="numpad-btn" onclick="insert(5)">5</div>
+                    <div class="numpad-btn" onclick="insert(6)">6</div>
+                    <div class="numpad-btn" onclick="insert(7)">7</div>
+                    <div class="numpad-btn" onclick="insert(8)">8</div>
+                    <div class="numpad-btn" onclick="insert(9)">9</div>
+                </div>
+                <div id="clear" onclick="clearnum()">Clear</div>
+            </div>
+
+
         </div>
+
+        <h1 id="IND" style="color: white;">Collected Items: []</h1>
+
+
+
+        </div>
+
+
+        <script>
+            let inventory = [];
+            let num = "";
+
+            function collectedScissors(item){
+                alert("The jar has...scissors. Questionable.");
+                inventory.push("Scissors")
+                item.onclick = null;
+                updateInventory();
+            }
+
+            function collectedPaper(item){
+                if (inventory.includes("Key")){
+                    alert("It's a strange note.");
+                    inventory.push("Note");
+                    item.onclick = null;
+                } else {
+                    alert("The chest needs a key.")
+                }
+                updateInventory();
+            }
+
+            function collectedSafe(item){
+                let answer = "1234";
+                alert("There's a code...");
+                    //code to input code somehow
+                if (answer.toString() == num){
+                    alert("It opened! You got a gun!");
+                    inventory.push("Gun");
+                    item.onclick = null;
+                } else {
+                    alert("That's not the right code.");
+                    }
+
+                updateInventory();
+            }
+
+            function collectedComputer(item){
+                let answer = "1112";
+                alert("It needs a password.");
+                    //code to input code somehow
+                if (answer == num){
+                    alert("Master Hacker! There's a code here. Let's write it down.");
+                    inventory.push("Door Code: [8898]");
+                    item.onclick = null;
+                } else {
+                    alert("Wrong password.");
+                    }
+                updateInventory();
+            }
+
+            function escapehere(item){
+                let answer = "8898";
+                alert("The door needs a code.");
+                    //code to input code somehow
+                if (answer == num){
+                    alert("It opened! Time to escape!");
+                    if (inventory.includes("Gun")){
+                        alert("Somethings jumps out at you, but you shoot it dead. You escaped!")
+                    } else{
+                        alert("Somethings jumps out at you! You're dead.")
+                    }
+                    item.onclick = null;
+                } else {
+                    alert("Dang it. Didn't open.");
+                    }
+                updateInventory();
+            }
+
+
+            function bearly_qualified(item){
+                if (inventory.includes("Scissors") && !inventory.includes("Key") ){
+                    alert("You cut the bear open with scissors! There's a key!");
+                    inventory.push("Key");
+                } else if(inventory.includes("Key")) {
+                    alert("You've gutted him...");
+                } else {
+                    alert("What a strange place for a toy...");
+                }
+                updateInventory();
+
+            }
+
+            function insert(x){
+                if(num.length < 4) {
+                num = num + x.toString();
+                updateCode();
+                console.log(num)
+                }
+
+            }
+
+            function clearnum(){
+                num ="";
+                updateCode();
+            }
+
+            function updateInventory() {
+                 document.getElementById("IND").textContent = "Inventory: [" + inventory.join(", ") + "]";
+            }
+            function updateCode() {
+                 document.getElementById("CodeInput").textContent = "Code: " +num;
+            }
+
+
+
+        </script>
     </main>
 
     <footer>

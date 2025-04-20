@@ -217,3 +217,23 @@ def user_library(request, uid):
     target_user = get_object_or_404(User, uid=uid)
     user_entities = Entity.objects.filter(created_by=target_user)
     return render(request, 'userLibrary.html', {'user': target_user, 'entities': user_entities})
+
+
+@login_required
+def delete_entity(request, eid):
+    entity = get_object_or_404(Entity, eid=eid)
+    if request.user == entity.created_by:
+        entity.delete()
+        request.user.entities_documented = Entity.objects.filter(created_by=request.user).count()
+        request.user.save()
+        messages.success(request, "Entity deleted.")
+    return redirect('user_library', uid=request.user.uid)
+
+@login_required
+def delete_account(request):
+    user = request.user
+    if request.method == 'POST':
+        user.delete()
+        messages.success(request, "Your account has been deleted.")
+        return redirect('home')
+    return redirect('profile')

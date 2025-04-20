@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from myapp.views import home_page, login_page, signin_page, entity_detail, profile_page, user_profile, upload_entity, minigames, escape, about_page, user_library
+from myapp.views import home_page, login_page, signin_page, entity_detail, profile_page, user_profile, upload_entity, minigames, escape, about_page, user_library, delete_entity, delete_account
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
@@ -35,6 +35,8 @@ urlpatterns = [
     path('Minigames/', minigames, name='minigames'),
     path('Escape/', escape, name='escape'),
     path('user/<int:uid>/library/', user_library, name='user_library'),
+    path('entity/delete/<int:eid>/', delete_entity, name='delete_entity'),
+    path('delete-account/', delete_account, name='delete_account'),
 
     
 

@@ -102,6 +102,13 @@
       {{ entity.description }}
     </div>
 
+    <div class="personnel">
+      <h3>Personnel at location:</h3>
+      {% for person in persons %}
+        <li>{{ person.name }}</li> <!-- Adjust field names as needed -->
+      {% endfor %}
+    </div>
+
     <a href="{% url 'home' %}">
       <button class="back-button">← Back to Homepage</button>
     </a>

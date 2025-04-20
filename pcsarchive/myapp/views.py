@@ -5,6 +5,8 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.decorators import login_required
 from .models import User, Class, Site, Entity, Personnel, SecurityClearance
 from django.contrib.auth import get_user_model, authenticate, login, logout
+from django.http import JsonResponse
+import json
 
 
 # Create your views here.
@@ -68,6 +70,31 @@ def minigames(request):
     return render(request, 'Minigames.html')
 
 def escape(request):
+    user = request.user
+    print(user.uid)
+    print(user.username)
+    if request.method == "POST":
+        data = json.loads(request.body)
+        exp = data.get("exp")
+        print("EXP received:", exp)
+        print(user.exp, " + ",exp)
+
+        if exp:
+            user.exp += int(exp)
+            print(user.exp)
+            user.save()
+
+            #testing rank up
+
+        if user.exp >= 100 and user.clearance is not None:
+            scid = user.clearance.scid
+            scid +=1
+            if scid < 6:
+                levelup = SecurityClearance.objects.get(scid=scid)
+                user.clearance = levelup
+                user.exp -=100
+                user.save()
+       
     return render(request, 'Escape.html')
 
 def login_page(request):
@@ -120,7 +147,11 @@ def signin_page(request):
 
 def entity_detail(request, eid):
     entity = get_object_or_404(Entity, eid=eid)
-    return render(request, 'entitypage.html', {'entity': entity})
+
+    #grabbing personnel
+    location = entity.location
+    persons = Personnel.objects.filter(location=location)
+    return render(request, 'entitypage.html', {'entity': entity, 'persons':persons})
 
 User = get_user_model()
 

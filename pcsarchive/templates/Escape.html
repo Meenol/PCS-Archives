@@ -18,6 +18,9 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+            border: solid black 1px;
+            height: auto;
+            width: 100%;
         }
 
         #window {
@@ -60,6 +63,16 @@
             border: solid black 1px;
         }
 
+        #begin {
+            width: 100%;
+            height: 50px;
+            font-size: 1.1rem;
+            font-family:'Jeju';
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0px 5px #393939;
+        }
+
         .numpad {
             background-color: rgb(109, 109, 109);
             height: 300px;
@@ -98,6 +111,17 @@
             border-style: outset;
         }
 
+        #restart { 
+
+            width: 100%;
+            height: 50px;
+            font-size: 1.1rem;
+            font-family:'Jeju';
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0px 5px #393939;
+        }
+
         h1 {
             font-family: 'Jeju';
             color: white;
@@ -109,7 +133,16 @@
 
     <main>
         <div id="game">
-            <h1 style="color:white;">Uhh....Hi? No Escape. Sowwy.</h1>
+            <h1 style="color:white;">Escape Room</h1>
+            <h1 id="timer" style="color: white;">Time: 0s</h1>
+
+            <button id="begin" onclick="gameStart()">Begin?</button>
+
+            <div id="reload">          
+                <a href="{% url 'escape' %}">
+                    <button id="restart">Restart?</button>
+                </a>
+            </div> 
 
 
         <div id="window">
@@ -154,6 +187,7 @@
         </div>
 
         <h1 id="IND" style="color: white;">Collected Items: []</h1>
+        <h1 id="xp" style="color: white;">Exp Gained: </h1>
 
 
 
@@ -218,9 +252,14 @@
                 if (answer == num){
                     alert("It opened! Time to escape!");
                     if (inventory.includes("Gun")){
+                        stopTimer();
                         alert("Somethings jumps out at you, but you shoot it dead. You escaped!")
+                        expGain();
+                        promptRestart();
                     } else{
+                        stopTimer();
                         alert("Somethings jumps out at you! You're dead.")
+                        promptRestart();
                     }
                     item.onclick = null;
                 } else {
@@ -264,6 +303,76 @@
                  document.getElementById("CodeInput").textContent = "Code: " +num;
             }
 
+            function showEXP() {
+                 document.getElementById("xp").textContent = "Exp Gained: " +exp;
+            }
+
+            document.getElementById("bg").style.display = "none";
+            document.getElementById("timer").style.display = "none";
+            document.getElementById("reload").style.display = "none";
+            document.getElementById("xp").style.display = "none";
+
+            function gameStart() {
+                document.getElementById("bg").style.display = "block";
+                document.getElementById("timer").style.display = "block";
+                document.getElementById("begin").style.display = "none";
+                startTimer();
+            }
+
+            function promptRestart(){
+                document.getElementById("reload").style.display = "block";
+            }
+
+            
+
+            let seconds = 0;
+            let timerInterval = null;
+
+            function startTimer() {
+                timerInterval = setInterval(() => {
+                    seconds++;
+                    document.getElementById("timer").textContent = "Time: " + seconds + "s";
+                }, 1000); // 1000 milliseconds = 1 second
+            }
+
+            function stopTimer() {
+                clearInterval(timerInterval);
+                console.log("Timer stopped at " + seconds + " seconds");
+            }
+
+            let exp = 0;
+            const csrfToken = '{{ csrf_token }}';
+
+            function expGain() {
+                if (seconds < 60 && seconds > 30) {
+                    exp = 15;
+                } else if (seconds < 30) {
+                    exp = 20;
+                } else {
+                    exp = 10;
+                }
+                
+                console.log(exp);
+                console.log(seconds);
+                document.getElementById("xp").style.display = "block";
+                showEXP();
+
+                fetch("/Escape/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": csrfToken
+                    },
+                    body: JSON.stringify({ exp: exp })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log("Success!", data);
+                })
+                .catch(err => {
+                    console.error("Error:", err);
+                });
+            }
 
 
         </script>

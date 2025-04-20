@@ -32,6 +32,36 @@
         a:hover {
             text-decoration: underline;
         }
+
+        form.inline {
+            display: inline;
+        }
+
+        button.delete-btn {
+            margin-left: 10px;
+            font-size: 0.9em;
+            background-color: #aa4444;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-account {
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .delete-account button {
+            font-size: 1em;
+            padding: 10px 20px;
+            background-color: #aa4444;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -43,12 +73,20 @@
             {% for entity in entities %}
                 <li>
                     <a href="{% url 'entity_detail' entity.eid %}">{{ entity.name }}</a>
+                    {% if request.user == user %}
+                        <form method="POST" action="{% url 'delete_entity' entity.eid %}" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this entity?')">Delete</button>
+                        </form>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>
     {% else %}
         <p>This user has not documented any entities yet.</p>
     {% endif %}
+
+    
 
 </body>
 </html>

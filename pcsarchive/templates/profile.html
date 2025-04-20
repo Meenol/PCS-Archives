@@ -71,14 +71,13 @@
 
         .quote-edit-btn,
         .pic-edit-btn {
-            background-color: #555F8F;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            font-size: 1.2em;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 15px;
+            width: 50%;
+            height: 50px;
+            font-size: 1.1rem;
+            font-family:'Jeju';
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0px 5px #393939;
         }
 
         .quote-edit-btn:hover,
@@ -139,7 +138,7 @@
         <img src="{{ user.image.url }}" alt="Profile Picture">
     
         {% if request.user == user %}
-            <button class="pic-edit-btn" onclick="togglePicEdit()">🖼️ Change Picture</button>
+            <button class="pic-edit-btn" onclick="togglePicEdit()"> Change Picture</button>
             <form method="POST" enctype="multipart/form-data" class="edit-form" id="pic-form">
                 {% csrf_token %}
                 <input type="file" name="image" accept="image/*">
@@ -157,6 +156,18 @@
           </p>
         <p><strong>Date Joined:</strong> {{ user.date_joined|date:"m/d/Y" }}</p>
         <p><strong>Clearance:</strong> {{ user.clearance.level }}</p>
+
+        {% if request.user == user %}
+    <div style="margin-top: 50px; text-align: center;">
+        <form method="POST" action="{% url 'delete_account' %}" onsubmit="return confirm('Are you sure you want to delete your account? This cannot be undone.')">
+            {% csrf_token %}
+            <button type="submit" style="background-color: #aa4444; color: white; border: none; padding: 12px 24px; font-size: 1.1em; border-radius: 8px; cursor: pointer;">
+                Delete My Account
+            </button>
+        </form>
+    </div>
+{% endif %}
+
     </div>
 
     <div class="right-panel">
@@ -165,7 +176,7 @@
         </blockquote>
 
         {% if request.user == user %}
-            <button class="quote-edit-btn" onclick="toggleQuoteEdit()">✏️ Edit Quote</button>
+            <button class="quote-edit-btn" onclick="toggleQuoteEdit()">✎ Edit Quote</button>
             <form method="POST" class="edit-form" id="quote-form">
                 {% csrf_token %}
                 <input type="text" name="quote" value="{{ user.quote }}" maxlength="100">
@@ -178,7 +189,7 @@
                 <p id="bio-display">{{ user.bio }}</p>
 
                 {% if request.user == user %}
-                    <button class="quote-edit-btn" onclick="toggleBioEdit()">✏️ Edit Bio</button>
+                    <button class="quote-edit-btn" onclick="toggleBioEdit()">✎ Edit Bio</button>
                     <form method="POST" class="edit-form" id="bio-form">
                         {% csrf_token %}
                         <input type="text" name="bio" value="{{ user.bio }}" maxlength="500">
@@ -189,7 +200,7 @@
         {% elif request.user == user %}
             <div class="quote-list">
                 <p id="bio-display" style="display: none;"></p>
-                <button class="quote-edit-btn" onclick="toggleBioEdit()">✏️ Add Bio</button>
+                <button class="quote-edit-btn" onclick="toggleBioEdit()">✎ Add Bio</button>
                 <form method="POST" class="edit-form" id="bio-form">
                     {% csrf_token %}
                     <input type="text" name="bio" placeholder="Write your bio here..." maxlength="500">
@@ -198,6 +209,8 @@
             </div>
         {% endif %}
     </div>
+
+    
 </div>
 
 <script>

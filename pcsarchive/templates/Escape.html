@@ -18,7 +18,6 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            border: solid black 1px;
             height: auto;
             width: 100%;
         }
@@ -33,34 +32,59 @@
         }
 
         #bg {
-            background-image: url("/media/entitypfp/Unicorn.jpg");
+            background-image: url("/static/static_images/room.png");
             background-size: cover;
             background-position: center;  
             background-repeat: no-repeat;  
             height: 600px;
             /*width: 100%;*/
             width: 850px;
+            position: relative;
+        }
+
+        #monster {
+            background-image: url("/static/static_images/monster.png");
+            background-size: cover;
+            background-position: center;  
+            background-repeat: no-repeat;  
+            height: 600px;
+            /*width: 100%;*/
+            width: 850px;
+            position: absolute;
+            top: 0px;
+        }
+
+        #free {
+            background-image: url("/static/static_images/freedom.png");
+            background-size: cover;
+            background-position: center;  
+            background-repeat: no-repeat;  
+            height: 600px;
+            /*width: 100%;*/
+            width: 850px;
+            position: absolute;
+            top: 0px;
         }
 
         .Iblock {
-            background-color: rgb(41, 240, 41);
             height: 50px;
             width: 50px;
-            border: solid black 1px;
+            /*border: solid green 3px;*/
         }
 
         .NIblock {
-            background-color: rgb(240, 41, 41);
             height: 50px;
             width: 50px;
-            border: solid black 1px;
+            /*border: solid red 3px;*/
         }
 
         .Bearblock {
-            background-color: rgb(77, 44, 7);
-            height: 50px;
+            height: 100px;
             width: 50px;
-            border: solid black 1px;
+            /*border: solid brown 3px;*/
+            position: absolute; 
+            top: 340px; 
+            left: 260px;
         }
 
         #begin {
@@ -149,21 +173,30 @@
 
             <div id="bg">
 
-                <div class = "Iblock" onclick="escapehere(this)"><p>Door</p></div>
-                <div class = "NIblock"></div>
-                <div class = "Iblock" onclick="collectedScissors(this)"><p>JAr</p></div>
-                <div class = "Iblock" onclick="collectedPaper(this)"><p>Chest</p></div>
-                <div class = "NIblock"></div>
-                <div class = "Bearblock" onclick="bearly_qualified(this)"><p>Bear</p></div>
-                <div class = "NIblock"></div>
-                <div class = "Iblock" onclick="collectedSafe(this)"><p>Safe</p></div>
-                <div class = "NIblock"></div>
-                <div class = "Iblock" onclick="collectedComputer(this)"><p>Comp</p></div>
-                
+                <div class = "Iblock" onclick="escapehere(this)" style="position: absolute; top: 340px; left: 450px; height: 60px; width: 40px;"><p></p></div>
+                <div class = "NIblock"onclick="observeSkull()" style="position: absolute; top: 320px; left: 790px;"></div>
+                <div class = "Iblock" onclick="collectedScissors(this)" style="position: absolute; top: 540px; left: 680px; height: 20px; width: 55px;"><p></p></div>
+                <div class = "Iblock" onclick="collectedPaper(this)" style="position: absolute; top: 360px; left: 320px; height: 60px; width: 80px;"><p></p></div>
+                <div class = "NIblock"onclick="observeFlask()" style="position: absolute; top: 365px; left: 725px; height: 40px; width: 30px;"></div>
+                <div class = "Bearblock"onclick="bearly_qualified(this)"><p></p></div>
+                <div class = "NIblock"onclick="observeJar()" style="position: absolute; top: 480px; left: 765px; height: 50px; width: 40px;"></div>
+                <div class = "NIblock"onclick="observeCalender()" style="position: absolute; top: 145px; left: 735px; height:95px; width: 90px;"></div>
+                <div class = "Iblock" onclick="collectedSafe(this)" style="position: absolute; top: 245px; left: 680px; height: 70px; width:70px;"><p></p></div>
+                <div class = "Iblock" onclick="observeDoor()" style="position: absolute; top: 195px; left: 500px; height: 370px; width:160px;"><p></p></div>
+
+                <div class = "NIblock" onclick="observeClock()" style="position: absolute; top: 110px; left: 25px; height:70px; width: 60px;"></div>
+                <div class = "NIblock" onclick="observePicture()" style="position: absolute; top: 310px; left: 10px; height:70px; width: 60px;"></div>
+
+                <div class = "Iblock" onclick="collectedComputer(this)" style="position: absolute; top: 250px; left: 90px; height:130px; width:100px;"><p></p></div>
+                <div class = "NIblock"onclick="observeWindow()" style="position: absolute; top: 120px; left: 120px; height:120px; width: 110px;"></div>
+                <div class = "NIblock"onclick="observeWindow()" style="position: absolute; top: 100px; left: 190px; height:220px; width: 250px;"></div>
+              
+                <div id="monster"></div>
+                <div id="free"></div>
 
             </div>
 
-            <div class="numpad">
+            <div id="numberpad" class="numpad">
                 <div id = "screen">
                     <div class="numpad-screen">
                         <p id="CodeInput" style="color: white;">Code: </p>
@@ -187,6 +220,7 @@
         </div>
 
         <h1 id="IND" style="color: white;">Collected Items: []</h1>
+        <h1 id="Comm" style="color: white"> </h1>
         <h1 id="xp" style="color: white;">Exp Gained: </h1>
 
 
@@ -197,9 +231,52 @@
         <script>
             let inventory = [];
             let num = "";
+            let warnings = [];
+
+            function observeSkull(){
+                showMessage("Just a skull. It's not spooky. Or scary.");
+            }
+
+            function observeFlask(){
+                showMessage("It's a bit warm to the touch.");
+            }
+
+            function observePicture(){
+                showMessage("It's too faded to see much. A man and...two kids?");
+            }
+
+            function observeWindow(){
+                if(!warnings.includes("Door")) {
+                    showMessage("...Maybe you don't want to go outside anymore.");
+                    warnings.push("Window");
+                } else {
+                    showMessage("Not safe inside...not safe outside. You're screwed.");
+                }
+            }
+
+            function observeDoor(){
+                if(!warnings.includes("Window")) {
+                    showMessage("...Yeah, you need to get outta here.");
+                    warnings.push("Door");
+                } else {
+                    showMessage("Not safe inside...not safe outside. You're screwed.");
+                }
+            }
+
+            function observeJar() {
+                showMessage("You found a...! Oh wait. It's empty.");
+            }
+
+            function observeClock(){
+                showMessage("It's broken. But, hey, it'll be right twice day.");
+            }
+
+            function observeCalender(){
+                showMessage("It's not on the right month.")
+            }
 
             function collectedScissors(item){
-                alert("The jar has...scissors. Questionable.");
+                showMessage("You got some nice, sharp scissors...")
                 inventory.push("Scissors")
                 item.onclick = null;
                 updateInventory();
@@ -207,25 +284,27 @@
 
             function collectedPaper(item){
                 if (inventory.includes("Key")){
-                    alert("It's a strange note.");
-                    inventory.push("Note");
+                    showMessage("It's a strange note.")
+                    inventory.push("Note: [Nov,Dec and Jan-April]");
                     item.onclick = null;
                 } else {
-                    alert("The chest needs a key.")
+                    showMessage("The chest needs a key.")
                 }
                 updateInventory();
             }
 
             function collectedSafe(item){
                 let answer = "1234";
-                alert("There's a code...");
-                    //code to input code somehow
-                if (answer.toString() == num){
-                    alert("It opened! You got a gun!");
+
+                if(num.length ==0) {
+                    showMessage("It needs a code.")
+                }
+                else if (answer.toString() == num){
+                    showMessage("It opened! You got a gun!");
                     inventory.push("Gun");
                     item.onclick = null;
                 } else {
-                    alert("That's not the right code.");
+                    showMessage("That's not the right code.");
                     }
 
                 updateInventory();
@@ -233,37 +312,50 @@
 
             function collectedComputer(item){
                 let answer = "1112";
-                alert("It needs a password.");
-                    //code to input code somehow
-                if (answer == num){
-                    alert("Master Hacker! There's a code here. Let's write it down.");
-                    inventory.push("Door Code: [8898]");
+
+                if (num.length == 0) {
+                    showMessage("It needs a password.");
+                } else if (answer == num){
+                    
+                    showMessage("Master Hacker! There's a code here. Let's write it down.");
+                    inventory.push("Code: [8898]");
                     item.onclick = null;
                 } else {
-                    alert("Wrong password.");
+                    
+                    showMessage("Wrong password.");
                     }
                 updateInventory();
             }
 
             function escapehere(item){
                 let answer = "8898";
-                alert("The door needs a code.");
-                    //code to input code somehow
-                if (answer == num){
-                    alert("It opened! Time to escape!");
+                if (num.length == 0){
+                    showMessage("The door needs a code.");
+                } else if (answer == num){
+                    
+                    showMessage("It opened! Time to escape!");
                     if (inventory.includes("Gun")){
                         stopTimer();
-                        alert("Somethings jumps out at you, but you shoot it dead. You escaped!")
-                        expGain();
-                        promptRestart();
+                        document.getElementById("free").style.display = "none";
+                        document.getElementById("monster").style.display = "block";
+                        showMessage("Somethings jumps out at you!")
+
+                        setTimeout(() => {
+                            showMessage("You've got a gun, so you shoot it dead!")
+                            document.getElementById("free").style.display = "block";
+                            expGain();
+                            promptRestart();
+                        }, 2000);
                     } else{
                         stopTimer();
-                        alert("Somethings jumps out at you! You're dead.")
+                        showMessage("Somethings jumps out at you! You're dead.")
+                        document.getElementById("monster").style.display = "block"
                         promptRestart();
                     }
                     item.onclick = null;
                 } else {
-                    alert("Dang it. Didn't open.");
+                    
+                    showMessage("Dang it. Didn't open.");
                     }
                 updateInventory();
             }
@@ -271,12 +363,12 @@
 
             function bearly_qualified(item){
                 if (inventory.includes("Scissors") && !inventory.includes("Key") ){
-                    alert("You cut the bear open with scissors! There's a key!");
+                    showMessage("You cut the bear open with scissors! There's a key!");
                     inventory.push("Key");
                 } else if(inventory.includes("Key")) {
-                    alert("You've gutted him...");
+                    showMessage("You've gutted him...");
                 } else {
-                    alert("What a strange place for a toy...");
+                    showMessage("What a strange place for a toy...");
                 }
                 updateInventory();
 
@@ -311,6 +403,9 @@
             document.getElementById("timer").style.display = "none";
             document.getElementById("reload").style.display = "none";
             document.getElementById("xp").style.display = "none";
+            document.getElementById("monster").style.display = "none";
+            document.getElementById("free").style.display = "none";
+
 
             function gameStart() {
                 document.getElementById("bg").style.display = "block";
@@ -321,6 +416,28 @@
 
             function promptRestart(){
                 document.getElementById("reload").style.display = "block";
+            }
+
+            function showPad() {
+                document.getElementById("numberpad").style.display="block";
+            }
+
+            let message = "";
+            function showMessage(str){
+                message = str;
+                document.getElementById("Comm").textContent = message
+                setTimeout(() => {
+                    document.getElementById("Comm").textContent = " "
+                        }, 3000);
+
+            }
+
+            function showNumpad(){
+                document.getElementById("numberpad").style.display = "block";
+            }
+
+            function byeNumpad(){
+                document.getElementById("numberpad").style.display = "block";
             }
 
             

@@ -8,39 +8,65 @@
     <title>{{ user.username }}'s Profile</title>
     <style>
         body {
-            background-color: #4E4E4E;
-            margin: 0;
-            padding: 40px;
-            font-family: Arial, sans-serif;
+            background-color: #3a3a3a;
             color: white;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
+            background-image: repeating-linear-gradient(
+                to bottom,
+                transparent,
+                transparent 10px,
+                rgba(255, 255, 255, 0.04) 11px,
+                transparent 12px
+            );
+            height: 100vh;
         }
 
-        .profile-container {
-            background-color: #9C9C9C;
-            padding: 40px;
-            max-width: 600px;
-            margin: auto;
+        .profile-wrapper {
+            display: flex;
+            justify-content: space-between;
+            width: 95%;
+            margin: 60px auto;
+            padding: 80px 100px;
+            min-height: 90vh;
+            box-sizing: border-box;
+        }
+
+        .left-panel, .right-panel {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .left-panel img {
+            width: 350px;
+            height: auto;
             border-radius: 20px;
-            text-align: center;
-        }
-
-        .profile-container img {
-            width: 200px;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 100px;
             border: 3px solid white;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
         }
 
-        .profile-container h1 {
+        .left-panel h2 {
+            font-size: 3.5em;
+            margin-bottom: 30px;
+            color: white;
+            text-shadow: 2px 2px black;
+        }
+
+        .left-panel p {
+            font-size: 1.8em;
+            margin: 10px 0;
+        }
+
+        .right-panel blockquote {
             font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .profile-container p {
-            font-size: 1.2em;
-            margin-bottom: 10px;
+            text-align: center;
+            font-weight: bold;
+            color: #f0f0f0;
+            margin-bottom: 50px;
+            line-height: 1.4;
         }
 
         .quote-edit-btn,
@@ -48,10 +74,11 @@
             background-color: #555F8F;
             color: white;
             border: none;
-            padding: 6px 12px;
-            border-radius: 5px;
+            padding: 12px 20px;
+            font-size: 1.2em;
+            border-radius: 8px;
             cursor: pointer;
-            margin-left: 10px;
+            margin-top: 15px;
         }
 
         .quote-edit-btn:hover,
@@ -59,92 +86,146 @@
             background-color: #444A6F;
         }
 
-        .quote-form,
-        .pic-form {
+        .edit-form {
             display: none;
-            margin-top: 15px;
+            margin-top: 20px;
+            width: 90%;
         }
 
-        .quote-form input,
-        .pic-form input {
-            width: 80%;
-            padding: 8px;
+        .edit-form input {
+            padding: 14px;
+            font-size: 1.3em;
+            width: 100%;
+            margin-bottom: 16px;
         }
 
-        .quote-form button,
-        .pic-form button {
-            margin-top: 10px;
-            padding: 6px 16px;
+        .edit-form button {
+            padding: 10px 20px;
+            font-size: 1.1em;
             background-color: #555F8F;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
         }
 
-        .quote-form button:hover,
-        .pic-form button:hover {
+        .edit-form button:hover {
             background-color: #444A6F;
         }
+
+        .quote-list {
+            margin-top: 40px;
+            font-size: 1.6em;
+            line-height: 1.6;
+        }
+
+        .quote-list p {
+            font-style: italic;
+            margin: 12px 0;
+            max-width: 600px;
+            text-align: left;
+            white-space: pre-wrap; /* respects newlines */
+            word-break: break-word;
+        }
+        
     </style>
 </head>
 <body>
-    <div class="profile-container">
-        <img src="{{ user.image.url }}" alt="Profile Picture" id="profile-pic">
-        <h1>{{ user.username }}</h1>
 
+<div class="profile-wrapper">
+    <div class="left-panel">
+        <h1 style="font-size: 2.2em; margin-bottom: 20px;">{{ user.username }}</h1>
+    
+        <img src="{{ user.image.url }}" alt="Profile Picture">
+    
         {% if request.user == user %}
-            <!-- Profile Picture Edit Button -->
             <button class="pic-edit-btn" onclick="togglePicEdit()">🖼️ Change Picture</button>
-
-            <!-- Hidden Image Upload Form -->
-            <form method="POST" enctype="multipart/form-data" class="pic-form" id="pic-form">
+            <form method="POST" enctype="multipart/form-data" class="edit-form" id="pic-form">
                 {% csrf_token %}
                 <input type="file" name="image" accept="image/*">
-                <br>
                 <button type="submit">Upload</button>
             </form>
-
-            <!-- Quote Edit Section -->
-            <p>
-                <strong>Quote:</strong> 
-                <span id="quote-display">{{ user.quote }}</span>
-                <button class="quote-edit-btn" onclick="toggleQuoteEdit()">✏️ Edit</button>
-            </p>
-
-            <form method="POST" class="quote-form" id="quote-form">
-                {% csrf_token %}
-                <input type="text" name="quote" value="{{ user.quote }}" maxlength="100">
-                <br>
-                <button type="submit">Save</button>
-            </form>
-        {% else %}
-            <p><strong>Quote:</strong> "{{ user.quote }}"</p>
         {% endif %}
+    
 
+        <h2>Stats:</h2>
+        <p>
+            <strong>Entities Documented:</strong>
+            <a href="{% url 'user_library' user.uid %}" style="color: #91caff;">
+              {{ user.entities_documented }}
+            </a>
+          </p>
+        <p><strong>Date Joined:</strong> {{ user.date_joined|date:"m/d/Y" }}</p>
         <p><strong>Clearance:</strong> {{ user.clearance.level }}</p>
     </div>
 
-    <script>
-        function toggleQuoteEdit() {
-            const form = document.getElementById('quote-form');
-            const quoteDisplay = document.getElementById('quote-display');
+    <div class="right-panel">
+        <blockquote>
+            {{ user.quote }}
+        </blockquote>
 
-            if (form.style.display === 'none' || form.style.display === '') {
-                form.style.display = 'block';
-                quoteDisplay.style.display = 'none';
-            } else {
-                form.style.display = 'none';
-                quoteDisplay.style.display = 'inline';
-            }
-        }
+        {% if request.user == user %}
+            <button class="quote-edit-btn" onclick="toggleQuoteEdit()">✏️ Edit Quote</button>
+            <form method="POST" class="edit-form" id="quote-form">
+                {% csrf_token %}
+                <input type="text" name="quote" value="{{ user.quote }}" maxlength="100">
+                <button type="submit">Save</button>
+            </form>
+        {% endif %}
 
-        function togglePicEdit() {
-            const form = document.getElementById('pic-form');
-            form.style.display = (form.style.display === 'block') ? 'none' : 'block';
+        {% if user.bio %}
+            <div class="quote-list">
+                <p id="bio-display">{{ user.bio }}</p>
+
+                {% if request.user == user %}
+                    <button class="quote-edit-btn" onclick="toggleBioEdit()">✏️ Edit Bio</button>
+                    <form method="POST" class="edit-form" id="bio-form">
+                        {% csrf_token %}
+                        <input type="text" name="bio" value="{{ user.bio }}" maxlength="500">
+                        <button type="submit">Save</button>
+                    </form>
+                {% endif %}
+            </div>
+        {% elif request.user == user %}
+            <div class="quote-list">
+                <p id="bio-display" style="display: none;"></p>
+                <button class="quote-edit-btn" onclick="toggleBioEdit()">✏️ Add Bio</button>
+                <form method="POST" class="edit-form" id="bio-form">
+                    {% csrf_token %}
+                    <input type="text" name="bio" placeholder="Write your bio here..." maxlength="500">
+                    <button type="submit">Save</button>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    function toggleQuoteEdit() {
+        const form = document.getElementById('quote-form');
+        form.style.display = (form.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function togglePicEdit() {
+        const form = document.getElementById('pic-form');
+        form.style.display = (form.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function toggleBioEdit() {
+        const form = document.getElementById('bio-form');
+        const display = document.getElementById('bio-display');
+        if (form.style.display === 'block') {
+            form.style.display = 'none';
+            if (display) display.style.display = 'block';
+        } else {
+            form.style.display = 'block';
+            if (display) display.style.display = 'none';
         }
-    </script>
+    }
+</script>
+
 </body>
 </html>
 
 {% endblock %}
+

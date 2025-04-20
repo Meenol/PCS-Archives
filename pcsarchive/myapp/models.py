@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.core.validators import MaxValueValidator
-
+from django.utils import timezone
 # Create your models here.
 
 class Class(models.Model):
@@ -26,6 +26,7 @@ class Entity(models.Model):
     image = models.ImageField(upload_to='entitypfp/', default='entitypfp/default_image.png', blank=True)  # Changed to ImageField
     class_ref = models.ForeignKey(Class, on_delete=models.CASCADE)
     description = models.TextField(default="No description provided.", blank=True)
+    created_by = models.ForeignKey('User', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -66,6 +67,8 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(username, email, password, **extra_fields)
 
 
+from django.utils import timezone  # add at the top if not already
+
 class User(AbstractBaseUser, PermissionsMixin):
     uid = models.AutoField(primary_key=True)
     username = models.CharField(max_length=50, unique=True)
@@ -73,7 +76,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     clearance = models.ForeignKey('SecurityClearance', on_delete=models.SET_NULL, null=True)
     quote = models.CharField(max_length=100, default="Silenced.")
     image = models.ImageField(upload_to='userpfp/', default='userpfp/default_image.png')
-    exp = models.IntegerField(validators=[MaxValueValidator(100)],default=0)
+    exp = models.IntegerField(validators=[MaxValueValidator(100)], default=0)
+
+    # 🆕 new fields:
+    date_joined = models.DateTimeField(default=timezone.now)
+    entities_documented = models.IntegerField(default=0)
+    bio = models.TextField(default="", blank=True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -85,3 +93,4 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
+

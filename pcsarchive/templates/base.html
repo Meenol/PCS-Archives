@@ -68,13 +68,9 @@
         .sidebutton {
             width: 100%;
             height: 50px;
-
             font-size: 1.1rem;
             font-family:'Jeju';
-
-            /*background-color: #9C9C9C;*/
             background-color: white;
-
             border-radius: 20px;
             box-shadow: 0px 5px #393939;
         }
@@ -89,6 +85,7 @@
             width: 101%;
             height: auto;
         }
+
         #userpfp {
             width: 100%;
             height: auto;
@@ -118,32 +115,39 @@
         <div id="sidebar">
             <div id="contents">
                 <div class="buttonlist">
-                  
-                    <a href="{% url 'minigames' %}" >
+
+                    <a href="{% url 'minigames' %}">
                         <button class="sidebutton">Minigames</button>
                     </a>
 
-                    <a href="{% url 'about' %}" >
+                    <a href="{% url 'about' %}">
                         <button class="sidebutton">About Page</button>
                     </a>
 
                     <a href="{% url 'profile' %}">
                         <button class="sidebutton">Profile Page</button>
                     </a>
-                    
+
                     <a href="{% url 'upload' %}">
                         <button class="sidebutton">Upload</button>
                     </a>
                 </div>
-                <img src="{{user.image.url}}" id="userpfp">
-                <div id="usrinfo">
-                    <div id="name">
-                        <h1 style="font-family: 'Jeju';font-size: 20px; color:black;">{{ user.username }}</h1>
+
+                {% if request.user.is_authenticated %}
+                    <img src="{{ request.user.image.url }}" id="userpfp">
+                    <div id="usrinfo">
+                        <div id="name">
+                            <h1 style="font-family: 'Jeju';font-size: 20px; color:black;">
+                                {{ request.user.username }}
+                            </h1>
+                        </div>
+                        <div id="quote">
+                            <h1 style="font-family: 'Jeju'; font-size: 20px; color:black;">
+                                {{ request.user.quote }}
+                            </h1>
+                        </div>
                     </div>
-                    <div id="quote">
-                        <h1 style="font-family: 'Jeju'; font-size: 20px; color:black;">{{ user.quote }}</h1>
-                    </div>
-                </div>
+                {% endif %}
             </div>
         </div>
 

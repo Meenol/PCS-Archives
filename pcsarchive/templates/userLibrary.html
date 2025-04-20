@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ user.username }}'s Entity Library</title>
+    <style>
+        body {
+            background-color: #3a3a3a;
+            color: white;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 40px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            font-size: 1.4em;
+            line-height: 2;
+        }
+
+        a {
+            color: #91caff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>{{ user.username }}'s Documented Entities</h1>
+
+    {% if entities %}
+        <ul>
+            {% for entity in entities %}
+                <li>
+                    <a href="{% url 'entity_detail' entity.eid %}">{{ entity.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>This user has not documented any entities yet.</p>
+    {% endif %}
+
+</body>
+</html>
+
+{% endblock %}

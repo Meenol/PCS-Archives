@@ -4,66 +4,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>{{ entity.name }}</title>
-    <style>
-        body {
-            background-color: #4E4E4E;
-            margin: 0;
-            padding: 20px;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <title>{{ entity.name }}</title>
+  <style>
+    body {
+      background-color: #3a3a3a;
+      color: white;
+      font-family: 'Courier New', monospace;
+      margin: 0;
+      padding: 0;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 10px,
+        rgba(255, 255, 255, 0.05) 11px,
+        transparent 12px
+      );
+    }
 
-        .entity-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #9C9C9C;
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 700px;
-            margin: 40px auto;
-        }
+    .entity-wrapper {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 40px 60px;
+      box-sizing: border-box;
+    }
 
-        .entity-container img {
-            width: 300px;
-            height: auto;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
+    .entity-image {
+      float: right;
+      margin: 0 0 20px 40px;
+      width: 280px;
+    }
 
-        .entity-container h1, .entity-container h3, .entity-container p {
-            margin-bottom: 10px;
-        }
+    .entity-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      border: 2px solid white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
 
-        .back-button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #555F8F;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
+    .entity-text h1 {
+      font-size: 2.8em;
+      margin-bottom: 10px;
+    }
 
-        .back-button:hover {
-            background-color: #444A6F;
-        }
-    </style>
+    .entity-text h3 {
+      font-size: 1.5em;
+      margin: 6px 0;
+      font-weight: bold;
+    }
+
+    .entity-description {
+      font-size: 1.2em;
+      line-height: 1.7;
+      margin-top: 30px;
+      overflow: hidden; /* prevents wrapping issues */
+    }
+
+    .back-button {
+      margin-top: 50px;
+      padding: 14px 30px;
+      font-size: 1em;
+      background-color: #555F8F;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .back-button:hover {
+      background-color: #444A6F;
+    }
+  </style>
 </head>
 <body>
-    <div class="entity-container">
-        <h1>{{ entity.name }}</h1>
-        <img src="{{ entity.image.url }}" alt="{{ entity.name }}">
-        <h3>Location: {{ entity.location.name }}</h3>
-        <h3>Class: {{ entity.class_ref.class_name }}</h3>
-        <p>{{ entity.description }}</p>
 
-        <a href="{% url 'home' %}">
-            <button class="back-button">Back to Homepage</button>
-        </a>
+  <div class="entity-wrapper entity-text">
+    <div class="entity-image">
+      <img src="{{ entity.image.url }}" alt="{{ entity.name }}">
     </div>
+
+    <h1>{{ entity.name }}</h1>
+    <h3>Location: {{ entity.location.name }}</h3>
+    <h3>Class: {{ entity.class_ref.class_name }}</h3>
+
+    {% if entity.created_by %}
+  <h3>
+    Submitted by:
+    <a href="{% url 'user_profile' entity.created_by.uid %}" style="color: #91caff; text-decoration: none;">
+      {{ entity.created_by.username }}
+    </a>
+  </h3>
+{% endif %}
+
+
+    <div class="entity-description">
+      {{ entity.description }}
+    </div>
+
+    <a href="{% url 'home' %}">
+      <button class="back-button">← Back to Homepage</button>
+    </a>
+  </div>
+
 </body>
 </html>
 

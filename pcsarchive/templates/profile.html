@@ -71,7 +71,7 @@
 
         .quote-edit-btn,
         .pic-edit-btn {
-            width: 50%;
+            width: 80%;
             height: 50px;
             font-size: 1.1rem;
             font-family:'Jeju';
@@ -200,7 +200,7 @@
         {% elif request.user == user %}
             <div class="quote-list">
                 <p id="bio-display" style="display: none;"></p>
-                <button class="quote-edit-btn" onclick="toggleBioEdit()">✎ Add Bio</button>
+                <button class="quote-edit-btn" onclick="toggleBioEdit()">  ✎ Add Bio  </button>
                 <form method="POST" class="edit-form" id="bio-form">
                     {% csrf_token %}
                     <input type="text" name="bio" placeholder="Write your bio here..." maxlength="500">
